@@ -9,11 +9,9 @@ type IdsGenerator struct{}
 
 func (IdsGenerator) Generate(todosType string, numberOfTodos int) ([]int, error) {
 	var ids []int
-	var err error
 
 	if numberOfTodos < config.Constant.MinTodosSize || numberOfTodos > config.Constant.MaxTodosSize {
-		err = errors.New("invalid todos size given!")
-		return ids, err
+		return nil, errors.New("invalid todos size given!")
 	}
 
 	switch todosType {
@@ -24,10 +22,10 @@ func (IdsGenerator) Generate(todosType string, numberOfTodos int) ([]int, error)
 	case config.Constant.TodoTypes["odd"]:
 		ids = generateOddIds(numberOfTodos)
 	default:
-		err = errors.New("invalid todos type given!")
+		return nil, errors.New("invalid todos type given!")
 	}
 
-	return ids, err
+	return ids, nil
 }
 
 func generateAllIds(size int) []int {
